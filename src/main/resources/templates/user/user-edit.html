@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="blocks/fragments :: head('Edit User Profile - Wish Mart', 'none')"></head>
+<body>
+<div th:replace="blocks/fragments :: navbar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br>
+            <h2 class="border-light mb-3">[[#{userEdit.edit}]] <span th:text="${user.userInfo.name}"></span>!</h2>
+            <form th:action="@{/profile/edit}" th:object="${user}" method="post">
+                <table id="user_main" class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>[[#{userMain.login}]]</th>
+                        <th>[[#{userMain.password}]]</th>
+                        <th>[[#{userMain.name}]]</th>
+                        <th>[[#{userMain.surname}]]</th>
+                        <th>[[#{userMain.phone}]]</th>
+                        <th>[[#{userMain.email}]]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                <input class="form-control input-sm" type="text" th:field="*{login}">
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="form-control input-sm" type="password" th:field="*{password}">
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="form-control input-sm" type="text" th:field="*{userInfo.name}">
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="form-control input-sm" type="text" th:field="*{userInfo.surname}">
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="form-control input-sm" type="text" th:field="*{userInfo.phone}">
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="form-control input-sm" type="text" th:field="*{email}">
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="submit" id="updateBtn" class="hidden"/>
+            </form>
+        </div>
+    </div>
+    <div class="text-right">
+        <label for="updateBtn" class="btn btn-primary btn-md my-0 p rounded" tabindex="0">[[#{userEdit.update}]]</label>
+        <a href="/profile" class="btn btn-primary btn-md my-0 p rounded">
+            <span>[[#{userEdit.returnBtn}]]</span>
+        </a>
+    </div>
+    <br>
+    <br>
+</div>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

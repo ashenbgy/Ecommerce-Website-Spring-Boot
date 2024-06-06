@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Order Baskets - Wish Mart', 'none')"></head>
+<div th:replace="blocks/fragments :: admin-navbar"></div>
+<body>
+<div id="contact-page" class="container">
+    <div class="bg">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div th:replace="/blocks/admin-sidebar :: sidebar"></div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items"><!--features_items-->
+                    <h2 class="title text-center">[[#{admin.order_basket.title}]]</h2>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead class="thead-dark">
+                            <th>[[#{admin.order_basket.id}]]</th>
+                            <th>[[#{admin.order_basket.companyTitle}]]</th>
+                            <th>[[#{admin.order_basket.login}]]</th>
+                            <th>[[#{admin.order_basket.quantity}]]</th>
+                            </thead>
+                            <tbody>
+                            <tr th:each="orderBasket : ${orderBaskets}">
+                                <td th:text="${orderBasket.id}"></td>
+                                <td th:text="${orderBasket?.product?.title}"></td>
+                                <td th:text="${orderBasket?.user?.login}"></td>
+                                <td th:text="${orderBasket.quantity}"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

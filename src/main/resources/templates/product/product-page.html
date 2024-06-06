@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="blocks/fragments :: head('Product page - Wish Mart', 'none')"></head>
+<body>
+<!--NavBar-->
+<div th:replace="blocks/fragments :: navbar"></div>
+
+<!--Main layout-->
+<!--<main class="container-fluid">-->
+<!--    <div th:replace="blocks/breadcrumb :: content"></div>-->
+<!--    <div class="container dark-grey-text mt-5">-->
+<!--        &lt;!&ndash;Grid row&ndash;&gt;-->
+<!--        <div class="row wow fadeIn">-->
+<!--            &lt;!&ndash;Grid column&ndash;&gt;-->
+<!--            <div class="col-md-6 mb-4">-->
+<!--                <img th:src="'/product-images/'+${product.imageURL}" class="img-fluid rounded" width="300"/>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;Grid column&ndash;&gt;-->
+
+<!--            &lt;!&ndash;Grid column&ndash;&gt;-->
+<!--            <div class="col-md-6 mb-4">-->
+
+<!--                &lt;!&ndash;Content&ndash;&gt;-->
+<!--                <div class="p-4">-->
+<!--                    <div>-->
+<!--                        <h2>[[${product.title}]]</h2>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <a th:href="@{'/category/'+ ${product.category.alias}}">-->
+<!--                            <span class="badge purple mr-1">[[#{admin.product.category}]]: [[${product.category.title}]]</span>-->
+<!--                        </a>-->
+<!--                        <span class="badge blue mr-1">[[#{admin.product.vendor}]]: [[${product.vendor.title}]]</span>-->
+<!--                    </div>-->
+<!--                    <p class="lead">-->
+<!--                        <h4><strong>[[#{admin.product.price}]]: Rs. [[${product.price}]]</strong> </h4>-->
+<!--                    </p>-->
+
+<!--                    <p class="lead font-weight-bold">[[#{admin.product.shortDescription}]]:</p>-->
+
+<!--                    <p th:utext="${product.description}"></p>-->
+
+<!--                    <div class="d-flex justify-content-left">-->
+<!--                        <div th:replace="/blocks/fragments :: quantity_control(1, ${product.id})"-->
+<!--                             style="max-width: 3rem">-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <button class="productBtn my-0 rounded" type="submit" id="addToCartBtn">-->
+<!--                                <i class="fas fa-shopping-cart ml-1"></i>-->
+<!--                                [[#{product.addToCartBtn}]]-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+<!--                </div>-->
+<!--                &lt;!&ndash;Content&ndash;&gt;-->
+
+<!--            </div>-->
+<!--            &lt;!&ndash;Grid column&ndash;&gt;-->
+
+<!--        </div>-->
+<!--        &lt;!&ndash;Grid row&ndash;&gt;-->
+
+<!--    </div>-->
+<!--</main>-->
+<!--Main layout-->
+
+<div id="contact-page" class="container">
+    <div class="bg">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div th:replace="/blocks/sidebar :: sidebar"></div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items"><!--features_items-->
+                    <div th:replace="blocks/breadcrumb :: content"></div>
+
+                    <div>
+
+                        <div class="row wow fadeIn">
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-4">
+                                <img th:src="'/product-images/'+${product.imageURL}" class="img-fluid rounded" width="300"/>
+                            </div>
+                            <!--Grid column-->
+
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-4">
+
+                                <!--Content-->
+                                <div class="p-4">
+                                    <div>
+                                        <h2>[[${product.title}]]</h2>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a th:href="@{'/category/'+ ${product.category.alias}}">
+                                            <span class="badge purple mr-1">[[#{admin.product.category}]]: [[${product.category.title}]]</span>
+                                        </a>
+                                        <span class="badge blue mr-1">[[#{admin.product.vendor}]]: [[${product.vendor.title}]]</span>
+                                    </div>
+                                    <p>
+                                    <h3 class="text-muted"><strong>[[#{admin.product.price}]]:&nbsp;&nbsp;Rs. [[${product.price}]]</strong> </h3>
+                                    </p>
+
+                                    <h4 class="text-muted short-description-label">[[#{admin.product.shortDescription}]]:</h4>
+                                    <h4 class="text-muted product-description" th:utext="${product.description}"></h4>
+                                    <p></p>
+
+                                    <div class="d-flex justify-content-left">
+                                        <div class="quantity-control-container" th:replace="/blocks/fragments :: quantity_control(1, ${product.id})">
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-default add-to-cart" type="submit" id="addToCartBtn">
+                                                <i class="fa fa-shopping-cart ml-1"></i>
+                                                [[#{product.addToCartBtn}]]
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!--Content-->
+
+                            </div>
+                            <!--Grid column-->
+
+                        </div>
+
+                    </div>
+                    <!--Pagination-->
+                    <!--                    <h6 class="title text-center">-->
+                    <!--                        <div th:replace="blocks/fragments :: pagination('/category/'+ ${category.alias}, 'product')"></div>-->
+                    <!--                    </h6>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/#pro-cat-page-->
+
+<!--Scripts-->
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript">
+    var productId = "[[${product.id}]]";
+    var productName = "[[${product.title}]]";
+</script>
+<script th:src="@{/js/quantity_control.js}"></script>
+<script th:src="@{/js/added_to_cart.js}"></script>
+
+<!-- Modal section-->
+<div th:replace="blocks/fragments :: showModal"></div>
+<!--Footer-->
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+</body>
+
+</html>

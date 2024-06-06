@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--Header-->
+<head th:replace="blocks/fragments :: head('Products - Wish Mart', 'none')"></head>
+
+<body>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments :: navbar"></div>
+
+<div id="contact-page" class="container">
+    <div class="bg">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div th:replace="/blocks/sidebar :: sidebar"></div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items"><!--features_items-->
+                    <div th:replace="blocks/breadcrumb :: content"></div>
+
+                    <div>
+                        <th:block th:each="product : ${listProducts}">
+                            <div th:replace="product/product_fragment :: content"></div>
+                        </th:block>
+                    </div>
+
+                    <!--Pagination-->
+<!--                    <h6 class="title text-center">-->
+<!--                        <div th:replace="blocks/fragments :: pagination('/category/'+ ${category.alias}, 'product')"></div>-->
+<!--                    </h6>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/#pro-cat-page-->
+
+<footer th:replace="~{blocks/fragments :: footer}"></footer>
+</body>
+</html>

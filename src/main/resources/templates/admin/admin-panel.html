@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Admin panel - Wish Mart', 'none')"></head>
+
+<body>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments :: admin-navbar"></div>
+<div id="contact-page" class="container">
+    <div class="bg">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div th:replace="/blocks/admin-sidebar :: sidebar"></div>
+            </div>
+
+            <br>
+            <h2 class="text-center mt-5">Welcome admin!<br> Use navbar to manage the DataBase!</h2>
+
+
+        </div>
+    </div>
+</div><!--/#pro-cat-page-->
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+</body>
+</html>

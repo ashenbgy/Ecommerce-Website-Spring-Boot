@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--Header-->
+<head th:fragment="head(title, remove)" th:remove="${remove}">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.png}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/font/css/font-awesome.min.css}"/>
+<!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">-->
+    <!-- Google Fonts Roboto -->
+<!--    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">-->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
+    <!-- Material Design Bootstrap -->
+<!--    <link rel="stylesheet" th:href="@{/css/mdb.css}"/>-->
+    <!--    Custom css-->
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <!--    added css-->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/responsive.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ekko-lightbox.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-social.css}"/>
+</head>
+
+<!--Main scripts-->
+<div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ekko-lightbox.min.js}"></script>
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+        var csrfHeaderName = "[[${_csrf.headerName}]]";
+        var csrfValue = "[[${_csrf.token}]]";
+    </script>
+</div>
+
+<!--new header inserted-->
+<header th:fragment="navbar" id="header"><!--header-->
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> +94 33 22 222 22</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> wishmart@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 clearfix">
+                    <div class="logo pull-left">
+                        <a href="/"><img th:src="@{/assets/logo.png}" alt="" /></a>
+                    </div>
+                </div>
+                <div class="col-md-8 clearfix">
+                    <div class="shop-menu clearfix pull-right">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a sec:authorize="hasAuthority('ADMIN')" href="/admin" >
+                                    <i class="fa fa-shopping-cart"></i> [[#{navbar.admin}]]</a>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a sec:authorize="isAuthenticated()" href="/basket" >
+                                    <i class="fa fa-shopping-cart"></i> [[#{navbar.cart}]]</a>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a sec:authorize="isAuthenticated()" href="/profile" >
+                                    <i class="fa fa-user"></i> [[#{navbar.myAccount}]]
+                                </a>
+                            </li>
+
+                            <li>
+                                <a sec:authorize="isAuthenticated()" href="/orders" >
+                                    <i class="fa fa-truck"></i> [[#{navbar.myOrders}]]
+                                </a>
+                            </li>
+
+                            <li><a href="/logout" sec:authorize="isAuthenticated()"><i class="fa fa-sign-out" ></i> [[#{navbar.logout}]]</a></li>
+
+                            <li>
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="#smyModal" >
+                                    <i class="fa fa-lock"></i> Login
+                                </a>
+                            </li>
+                            <li>
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="/registration" >
+                                    <i class="fa fa-user"></i> Register
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a th:href="@{'?lang=en'}">EN</a>
+                            </li>
+                            <li>
+                                <a th:href="@{'?lang=uk'}">සිං</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+
+    <!--Login modal-->
+    <div th:replace="/blocks/login-sign :: smyModal"></div>
+
+    <div class="header-bottom"><!--header-bottom-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="mainmenu pull-left">
+                        <ul class="nav navbar-nav collapse navbar-collapse">
+                            <li><a href="/" class="active">[[#{navbar.home}]]</a></li>
+                            <li class="dropdown"><a href="#">[[#{navbar.category}]]<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li th:each="category : ${listCategories}">
+                                        <a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category Name</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            <li><a href="/products">[[#{navbar.products}]]</a></li>
+                            <li ><a href="/contact">[[#{navbar.contact}]]</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <form th:action="@{/search}" method="get" >
+                        <div class="search_box pull-right">
+                            <input type="text" name="keyword" placeholder="Search" required/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-bottom-->
+</header><!--/header-->
+<!--header finished-->
+
+<!--/admin-navbar-->
+<header th:fragment="admin-navbar" id="admin-header"><!--header-->
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> +94 33 22 222 22</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> wishmart@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 clearfix">
+                    <div class="logo pull-left">
+                        <a href="/"><img th:src="@{/assets/logo.png}" alt="" /></a>
+                    </div>
+                </div>
+                <div class="col-md-8 clearfix">
+                    <div class="shop-menu clearfix pull-right">
+                        <ul class="nav navbar-nav">
+
+                            <li>
+                                <a sec:authorize="isAuthenticated()" href="/basket" >
+                                    <i class="fa fa-shopping-cart"></i> [[#{navbar.cart}]]</a>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a sec:authorize="isAuthenticated()" href="/profile" >
+                                    <i class="fa fa-user"></i> [[#{navbar.myAccount}]]
+                                </a>
+                            </li>
+
+                            <li>
+                                <a sec:authorize="isAuthenticated()" href="/orders" >
+                                    <i class="fa fa-truck"></i> [[#{navbar.myOrders}]]
+                                </a>
+                            </li>
+
+                            <li><a href="/logout" sec:authorize="isAuthenticated()"><i class="fa fa-sign-out" ></i> [[#{navbar.logout}]]</a></li>
+
+                            <li>
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="#smyModal">
+                                    <i class="fa fa-lock"></i> Login
+                                </a>
+                            </li>
+                            <li>
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="/registration" >
+                                    <i class="fa fa-user"></i> Register
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a th:href="@{'?lang=en'}">EN</a>
+                            </li>
+                            <li>
+                                <a th:href="@{'?lang=uk'}">සිං</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+
+    <!--Login modal-->
+    <div th:replace="/blocks/login-sign :: smyModal"></div>
+
+    <div class="header-bottom"><!--header-bottom-->
+
+    </div><!--/header-bottom-->
+</header><!--/admin-navbar-->
+
+<footer id="footer" th:fragment="footer"><!--Footer-->
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="companyinfo">
+                        <h2><span>Wish</span>-Mart</h2>
+                        <p>[[#{footer.textAbout}]]</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="address">
+                        <img th:src="@{/assets/map.png}" alt="" />
+                        <p>Wish Mart,<br>[[#{footer.city}]].</p>
+                    </div>
+                </div>
+
+                  <div class="col-sm-6">
+                    <div class="video-gallery text-center">
+                      <a href="#">
+                          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d63372.42102183473!2d79.8851072!3d6.9173248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1716808971078!5m2!1sen!2slk"
+                                  allowfullscreen="" loading="lazy"
+                                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </a>
+                    </div>
+                  </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-widget">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="single-widget">
+                        <h2>Services</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#">Online Help</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Order Status</a></li>
+                            <li><a href="#">Change Location</a></li>
+                            <li><a href="#">FAQ’s</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="single-widget">
+                        <h2>Quick Shop</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="nav nav-pills nav-stacked" th:each="category : ${listCategories}">
+                                <a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="single-widget">
+                        <h2>Policies</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">HR Records</a></li>
+                            <li><a href="#">Point of Sales</a></li>
+                            <li><a href="#">Reservations</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="single-widget">
+                        <h2>About Shopper</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#">Company Information</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Other Location</a></li>
+                            <li><a href="#">Stores</a></li>
+                            <li><a href="#">Copyright</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <p class="pull-right">Designed by <span><a target="_blank" href="#">WishMart</a></span></p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!--/Footer-->
+
+
+<!--Pagination for whole site-->
+<a th:fragment="page_link(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum}}">
+    [[${label}]]
+</a>
+<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1 mb-4 mt-5" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[#{pagination.found}]]</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, 1, #{pagination.first})"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage - 1}, #{pagination.previous})"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage + 1}, #{pagination.next})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--Pagination for admin page(used only in product,
+but can be also used in another admin pages if you modify code to sort and search-->
+<a th:fragment="page_link2(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum} +'?sortField=' +${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId='+ categoryId : ''}}">
+    [[${label}]]
+</a>
+<div th:fragment="paginationAdmin(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1 mb-4 mt-5" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[#{pagination.found}]]</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, 1, #{pagination.first})"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${currentPage - 1}, #{pagination.previous})"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${currentPage + 1}, #{pagination.next})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!--Button + - for products and checkout-->
+<div class="h-80" th:fragment="quantity_control(qtyValue, productId)">
+    <nav>
+        <ul class="pagination quantity-control">
+            <li>
+                <a class="btn btn-default minusButton" href="" th:pid="${productId}"><b>-</b></a>
+            </li>
+            <li>
+                <input type="text" th:value="${qtyValue}" class="form-control text-center quantity-input"
+                       onkeydown="return false;" th:id="'quantity'+${productId}"/>
+            </li>
+            <li>
+                <a class="btn btn-default plusButton" href="" th:pid="${productId}"><b>+</b></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!--Addition footer for checkout and admin-->
+<div th:fragment="additional_footer" class="additional-footer">
+    <hr/>
+    <span class="credit">[[#{footer.created}]] <a href="#">Wish Mart</a> | </span>
+    <span class="fa fa-copyright"></span><span> [[#{footer.copyright}]]</span>
+</div>
+
+<!-- Modal for errors-->
+<div th:fragment="showModal" class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody">This is content</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded" data-dismiss="modal">[[#{modal.closeBtn}]]</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

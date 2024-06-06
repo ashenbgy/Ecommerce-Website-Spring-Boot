@@ -1,0 +1,95 @@
+<!--Scripts-->
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:fragment="smyModal">
+
+<!-- login modal -->
+<div class="modal fade" id="smyModal" tabindex="-1">
+
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="modal-body">
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="home">
+                            <!-- <h4>Login Tab</h4>  -->
+                            <div class="panel panel-pup">
+                                <div class="panel-heading">
+                                    <h2 class="title text-center">
+                                        [[#{login.title}]]
+                                    </h2>
+                                </div>
+                                <div class="panel-body">
+
+                                    <form class="form-horizontal span6" name=""  th:action="@{/login}" method="POST">
+<!--                                        <input class="proid" type="hidden" name="proid" id="proid" value="">-->
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <label class="col-md-4 control-label" for="username">Username:</label>
+                                                <div class="col-md-8">
+                                                    <input id="username" name="username" th:attr="placeholder=#{login.username}" type="text" class="form-control input-sm" required minlength="4" maxlength="30">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <label class="col-md-4 control-label" for=
+                                                        "password">Password:</label>
+                                                <div class="col-md-8">
+                                                    <input id="password" name="password"  th:attr="placeholder=#{login.password}" type="password" class="form-control input-sm" required minlength="4" maxlength="40">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <label class="col-md-4 control-label"> </label>
+                                                <div class="col-md-8">
+                                                    <button type="submit" class="btn btn-warning">
+                                                        [[#{login.submit}]]
+                                                    </button>
+                                                    <button class="btn btn-default" data-dismiss="modal" type="button">
+                                                        [[#{modal.closeBtn}]]
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <br>
+                                            <span class="message">
+                                                [[#{login.notReg}]]<a th:href="@{/registration}"><br>[[#{login.createAc}]]</a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="panel-footer">
+                                    <p align="left">&copy; <a href="/">Wish Mart</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end login panel -->
+
+                    </div>
+
+                </div> <!-- /.modal-body -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>
+
+</div>
+
+<script language="javascript" type="text/javascript">
+    function OpenPopupCenter(pageURL, title, w, h) {
+        var left = (screen.width - w) / 2;
+        var top = (screen.height - h) / 4;  // for 25% - devide by 4  |  for 33% - devide by 3
+        var targetWin = window.open(pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    }
+</script>

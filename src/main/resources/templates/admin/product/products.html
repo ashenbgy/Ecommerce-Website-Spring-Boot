@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Products - Wish Mart', 'none')"></head>
+<div th:replace="blocks/fragments :: admin-navbar"></div>
+<body>
+<div id="contact-page" class="container">
+    <div class="bg">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div th:replace="/blocks/admin-sidebar :: sidebar"></div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <h2 class="title text-center">[[#{admin.products.title}]]</h2>
+
+                    <div class="header-row">
+                        <h1 class="page-header">List of Products &nbsp;</h1>
+                        <a class="btn btn-info btn-sm" th:href="@{/admin/products/new}">+ New Product</a>
+                    </div>
+
+                    <div th:if="${message != null}" class="alert alert-success text-center">
+                        [[${message}]]
+                    </div>
+
+                    <div>
+                        <form th:action="@{/admin/products/page/1}" class="contact-form row" id="searchForm">
+                            <input type="hidden" name="sortField" th:value="${sortField}"/>
+                            <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+                            <div class="form-group col-md-4">
+                                Category:
+                                <select class="form-control" name="categoryId" id="dropDownCategory">
+                                    <option value="0">All Categories</option>
+                                    <th:block th:each="cat : ${listCategories}">
+                                        <option th:value="${cat.id}" th:selected="(${categoryId} == ${cat.id})">
+                                            [[${cat.title}]]
+                                        </option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                Filter:
+                                <input type="search" name="keyword" class="form-control" th:value="${keyword}"
+                                       required/>
+                            </div>
+
+                            <div class="form-group col-md-4" style="display: flex; align-items: center; height: 85px;">
+                                <button type="submit" class="btn btn-info" style="margin-right: 10px;">Search</button>
+                                <input type="button" value="Clear" class="btn btn-default" onclick="clearFilter();"/>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead class="thead-dark">
+                            <th>
+                                <a th:if="${sortField != 'id'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${sortDir}}">
+                                    [[#{admin.product.id}]]
+                                </a>
+                                <a th:if="${sortField == 'id'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+                                    [[#{admin.product.id}]]
+                                </a>
+                                <span th:if="${sortField == 'id'}"
+                                      th:class="${sortDir == 'asc' ? 'fa fa-sort-up' : 'fa fa-sort-down'}"></span>
+                            </th>
+
+                            <th>[[#{admin.product.image}]]</th>
+                            <th>
+                                <a th:if="${sortField != 'title'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=title&sortDir=' + ${sortDir}}">
+                                    [[#{admin.product.title}]]
+                                </a>
+                                <a th:if="${sortField == 'title'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=title&sortDir=' + ${reverseSortDir}}">
+                                    [[#{admin.product.title}]]
+                                </a>
+                                <span th:if="${sortField == 'title'}"
+                                      th:class="${sortDir == 'asc' ? 'fa fa-sort-up' : 'fa fa-sort-down'}"></span>
+                            </th>
+                            <th>[[#{admin.product.alias}]]</th>
+                            <th>
+                                <a th:if="${sortField != 'description'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${sortDir}}">
+                                    [[#{admin.product.shortDescription}]]
+                                </a>
+                                <a th:if="${sortField == 'description'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${reverseSortDir}}">
+                                    [[#{admin.product.shortDescription}]]
+                                </a>
+                                <span th:if="${sortField == 'description'}"
+                                      th:class="${sortDir == 'asc' ? 'fa fa-sort-up' : 'fa fa-sort-down'}"></span>
+                            </th>
+                            <th>[[#{admin.product.price}]]</th>
+                            <th>
+                                <a th:if="${sortField != 'vendor'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=vendor&sortDir=' + ${sortDir}}">
+                                    [[#{admin.product.vendor}]]
+                                </a>
+                                <a th:if="${sortField == 'vendor'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=vendor&sortDir=' + ${reverseSortDir}}">
+                                    [[#{admin.product.vendor}]]
+                                </a>
+                                <span th:if="${sortField == 'vendor'}"
+                                      th:class="${sortDir == 'asc' ? 'fa fa-sort-up' : 'fa fa-sort-down'}"></span>
+                            </th>
+                            <th>
+                                <a th:if="${sortField != 'category'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=category&sortDir=' + ${sortDir}}">
+                                    [[#{admin.product.category}]]
+                                </a>
+                                <a th:if="${sortField == 'category'}" class="text-white"
+                                   th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=category&sortDir=' + ${reverseSortDir}}">
+                                    [[#{admin.product.category}]]
+                                </a>
+                                <span th:if="${sortField == 'category'}"
+                                      th:class="${sortDir == 'asc' ? 'fa fa-sort-up' : 'fa fa-sort-down'}"></span>
+                            </th>
+                            <th>[[#{admin.managment}]]</th>
+                            </thead>
+                            <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.id}"></td>
+                                <td><img style="width:100px;height:100px;padding:0;"
+                                         th:src="'/product-images/'+${product.imageURL}"/></td>
+                                <td th:title="${product.title}" th:text="${product.title}"></td>
+                                <td class="d-none d-sm-table-cell" th:title="${product.alias}">
+                                    <a class="link-detail" th:href="@{'/product/'+${product.alias}}">
+                                        [[${product.shortAlias}]]
+                                    </a>
+                                </td>
+                                <td th:text="${product.shortDescription}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product?.vendor?.title}"></td>
+                                <td th:text="${product?.category?.title}"></td>
+                                <td><a class="fa fa-edit green-text"
+                                       th:href="@{'/admin/products/edit/' + ${product.id}}"
+                                       title="Edit this product"></a>
+                                    &nbsp; <a class="fa fa-trash red-text"
+                                              th:href="@{'/admin/products/delete/' + ${product.id}}"
+                                              title="Delete this product"></a>
+                                </td>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!--Pagination-->
+                    <div th:replace="blocks/fragments :: paginationAdmin('/admin/products', 'product')"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript">
+    $("#dropDownCategory").on("change", function () {
+        $("#searchForm").submit();
+    });
+
+    function clearFilter() {
+        window.location = "[[@{/admin/products}]]";
+    }
+</script>
+</body>
+</html>

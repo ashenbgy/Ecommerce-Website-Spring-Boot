@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="sidebar" class="left-sidebar">
+    <h2>Admin Panel</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="sidebar">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="padding-left: 0px">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ><a  href="/admin">[[#{admin_nav.home}]]</a></li>
+                            <li ><a  href="/admin/products">[[#{admin_nav.products}]]</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/users">[[#{admin_nav.users}]]</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/orders">[[#{admin_nav.orders}]]</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/categories">[[#{admin_nav.categories}]]</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/vendors">[[#{admin_nav.vendors}]]</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/order_baskets">[[#{admin_nav.order_baskets}]]</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
