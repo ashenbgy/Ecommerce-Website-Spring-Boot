@@ -1,6 +1,7 @@
 package com.ecom.site_project.service.impl;
 
 import com.ecom.site_project.entity.Category;
+import com.ecom.site_project.entity.Product;
 import com.ecom.site_project.exception.CategoryNotFoundException;
 import com.ecom.site_project.repository.CategoryRepository;
 import com.ecom.site_project.service.CategoryService;
@@ -9,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -19,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     //Shows only main categories with sub categories per page.
     //For ex if top categories is 2: Electronics, ..subcat., Clothes..subcat../next page
-    public static final int TOP_CATEGORIES_PER_PAGE = 1;
+    public static final int TOP_CATEGORIES_PER_PAGE = 5;
 
     @Override
     public List<Category> listByPage(CategoryPageInfoServiceImpl pageInfo, int pageNum) {
@@ -107,7 +110,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category saveCategory(Category category) {
+    public Category saveCategory(Category category, MultipartFile file) throws IOException, CategoryNotFoundException {
         Category parent = category.getParent();
         if (parent != null) {
             String allParentIds = parent.getAllParentsIDs() == null ? "-" : parent.getAllParentsIDs();
@@ -119,6 +122,13 @@ public class CategoryServiceImpl implements CategoryService {
             category.setAlias(convertCyrillic(defaultAlias).replaceAll(" ", "_"));
         } else {
             category.setAlias(category.getAlias().replaceAll(" ", "_").toLowerCase());
+        }
+        if (file.getSize() > 0) {
+            category.setImageFile(Base64.getEncoder().encodeToString(file.getBytes()));
+        } else {
+            // If no new file is uploaded, retain the existing image
+            Category existingCategory = getCategory(category.getId());
+            category.setImageFile(existingCategory.getImageFile());
         }
         return categoryRep.save(category);
     }

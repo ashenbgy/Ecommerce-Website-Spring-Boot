@@ -29,7 +29,7 @@
                     </ol>
 
                     <form th:action="@{/admin/products/save}" onsubmit="return checkUnique(this)" th:object="${product}"
-                          method="post" class="custom-form">
+                          method="post" class="custom-form" enctype="multipart/form-data">
                         <input type="hidden" th:field="*{id}"/>
                         <div>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">

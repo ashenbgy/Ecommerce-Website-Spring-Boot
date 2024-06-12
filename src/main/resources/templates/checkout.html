@@ -34,8 +34,8 @@
                     <div class="product" th:with="product = ${basketItem.product}">
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
-                                <img class="img-fluid mx-auto d-block image"
-                                     th:src="'/product-images/'+${product.imageURL}" width="50" height="50"/>
+                                <img th:src="@{'data:image/jpeg;base64,'+${product.imageFile}}"
+                                     class="img-fluid mx-auto d-block image" width="50" height="50" />
                                 <h6 class="my-0">
                                     <a th:text="${product.title}"
                                        th:href="@{'/product/' + ${product.alias}}"></a>

@@ -37,8 +37,8 @@
                                             </a>
                                         </div>
                                         <a th:href="@{'/product/' + ${product.alias}}" class="zoom">
-                                            <img class="img-fluid mx-auto d-block image"
-                                                 th:src="'/product-images/'+${product.imageURL}" width="130"
+                                            <img th:src="@{'data:image/jpeg;base64,'+${product.imageFile}}"
+                                                 class="img-fluid mx-auto d-block image" width="130"
                                                  height="130"/>
                                         </a>
                                     </div>

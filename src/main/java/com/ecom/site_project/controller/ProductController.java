@@ -28,7 +28,7 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    private AdminTools adminTools;
+    private AdminToolController adminTools;
     @Autowired
     private CategoryRepository categoryRep;
 

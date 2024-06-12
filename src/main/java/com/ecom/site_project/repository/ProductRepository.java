@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+
     @Query("SELECT product FROM Product product WHERE (product.category.id = ?1 OR product.category.allParentsIDs LIKE %?2%)"
             + "ORDER BY product.title ASC")
     Page<Product> listByCategory(Integer categoryId, Pageable pageable, String categoryIDMatch);

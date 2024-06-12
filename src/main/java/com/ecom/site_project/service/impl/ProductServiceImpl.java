@@ -2,6 +2,7 @@ package com.ecom.site_project.service.impl;
 
 import com.ecom.site_project.entity.Product;
 import com.ecom.site_project.exception.ProductNotFoundException;
+import com.ecom.site_project.repository.CategoryRepository;
 import com.ecom.site_project.repository.ProductRepository;
 import com.ecom.site_project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +14,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+
     public static final int PRODUCTS_PER_PAGE = 10;
     public static final int SEARCH_RESULTS_PAGE = 10;
-
     public static final int PRODUCTS_PER_ADMIN_PAGE = 5;
-    @Value("${upload.dir}")
-    private String uploadDir;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public Page<Product> listByCategory(int pageNum, Integer categoryId) {
@@ -73,23 +72,43 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getRandomAmountOfProducts() throws ProductNotFoundException {
-        List<Product> productList = productRepository.findAllByCategoryId(1);
-        if (productList.isEmpty()) {
-            throw new ProductNotFoundException("Couldn't find any product in DB");
-        }
-        Collections.shuffle(productList);
-        int randomSeriesLength = 2;
-        return productList.subList(0, randomSeriesLength);
+        int randomSeriesLength = 3;
 
+        List<Integer> catIdList = categoryRepository.findAllEnabledCategoryId();
+
+        List<Product> productList = null;
+        Collections.shuffle(catIdList);
+        for (Integer categoryId : catIdList) {
+            productList = productRepository.findAllByCategoryId(categoryId);
+            if (!productList.isEmpty()) {
+                break; // Exit loop if a non-empty product list is found
+            }
+        }
+
+        Collections.shuffle(productList);
+
+        if (randomSeriesLength > productList.size()) {
+            randomSeriesLength = productList.size();
+        }
+        return productList.subList(0, randomSeriesLength);
     }
 
     @Override
-    public void saveProduct(Product product) {
+    public void saveProduct(Product product, MultipartFile file) throws IOException, ProductNotFoundException {
         if (product.getAlias() == null || product.getAlias().isEmpty()) {
             String defaultAlias = product.getTitle().toLowerCase();
             product.setAlias((new CategoryServiceImpl().convertCyrillic(defaultAlias).replaceAll(" ", "_")));
         } else {
             product.setAlias(product.getAlias().replaceAll(" ", "_").toLowerCase());
+        }
+        if (product.getId() != null) {
+            if (file.getSize() > 0) {
+                product.setImageFile(Base64.getEncoder().encodeToString(file.getBytes()));
+            } else {
+                // If no new file is uploaded, retain the existing image
+                Product existingProduct = getProduct(product.getId());
+                product.setImageFile(existingProduct.getImageFile());
+            }
         }
         productRepository.save(product);
     }
