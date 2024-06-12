@@ -126,7 +126,7 @@
                             <tr th:each="product : ${products}">
                                 <td th:text="${product.id}"></td>
                                 <td><img style="width:100px;height:100px;padding:0;"
-                                         th:src="'/product-images/'+${product.imageURL}"/></td>
+                                         th:src="@{'data:image/jpeg;base64,'+${product.imageFile}}" /></td>
                                 <td th:title="${product.title}" th:text="${product.title}"></td>
                                 <td class="d-none d-sm-table-cell" th:title="${product.alias}">
                                     <a class="link-detail" th:href="@{'/product/'+${product.alias}}">

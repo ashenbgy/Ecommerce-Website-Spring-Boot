@@ -19,7 +19,7 @@ public interface ProductService {
 
     Page<Product> listByCategory(int pageNum, Integer categoryId);
 
-    void saveProduct(Product product);
+    void saveProduct(Product product, MultipartFile file) throws IOException, ProductNotFoundException;
 
     Product getProduct(Integer id) throws ProductNotFoundException;
 

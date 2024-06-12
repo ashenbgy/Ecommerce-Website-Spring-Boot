@@ -30,6 +30,10 @@ public class Category {
     @Column(name = "image")
     private String imageURL;
 
+    @Lob
+    @Column(name = "image_file", columnDefinition = "MEDIUMBLOB")
+    private String imageFile;
+
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
@@ -72,7 +76,7 @@ public class Category {
         copyCategory.setId(category.getId());
         copyCategory.setTitle(category.getTitle());
         copyCategory.setAlias(category.getAlias());
-        copyCategory.setImageURL(category.getImageURL());
+        copyCategory.setImageFile(category.getImageFile());
         copyCategory.setEnabled(category.getEnabled());
 
         return copyCategory;
@@ -95,14 +99,14 @@ public class Category {
     public Category(String title) {
         this.title = title;
         this.alias = title;
-        this.imageURL = "default.png";
+        this.imageFile = "assets/default.png";
     }
 
-    public Category(Integer id, String title, String alias, String imageURL, Boolean enabled, Category parent) {
+    public Category(Integer id, String title, String alias, String imageFile, Boolean enabled, Category parent) {
         this.id = id;
         this.title = title;
         this.alias = alias;
-        this.imageURL = imageURL;
+        this.imageFile = imageFile;
         this.enabled = enabled;
         this.parent = parent;
     }

@@ -9,14 +9,14 @@
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.png}"/>
     <!-- Font Awesome -->
     <link rel="stylesheet" th:href="@{/font/css/font-awesome.min.css}"/>
-<!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">-->
+    <!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">-->
     <!-- Google Fonts Roboto -->
-<!--    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">-->
+    <!--    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">-->
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
     <!-- Material Design Bootstrap -->
-<!--    <link rel="stylesheet" th:href="@{/css/mdb.css}"/>-->
+    <!--    <link rel="stylesheet" th:href="@{/css/mdb.css}"/>-->
     <!--    Custom css-->
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
     <!--    added css-->
@@ -72,45 +72,46 @@
             <div class="row">
                 <div class="col-md-4 clearfix">
                     <div class="logo pull-left">
-                        <a href="/"><img th:src="@{/assets/logo.png}" alt="" /></a>
+                        <a href="/"><img th:src="@{/assets/logo.png}" alt=""/></a>
                     </div>
                 </div>
                 <div class="col-md-8 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a sec:authorize="hasAuthority('ADMIN')" href="/admin" >
+                                <a sec:authorize="hasAuthority('ADMIN')" href="/admin">
                                     <i class="fa fa-shopping-cart"></i> [[#{navbar.admin}]]</a>
                                 </a>
                             </li>
 
                             <li>
-                                <a sec:authorize="isAuthenticated()" href="/basket" >
+                                <a sec:authorize="isAuthenticated()" href="/basket">
                                     <i class="fa fa-shopping-cart"></i> [[#{navbar.cart}]]</a>
                                 </a>
                             </li>
 
                             <li>
-                                <a sec:authorize="isAuthenticated()" href="/profile" >
+                                <a sec:authorize="isAuthenticated()" href="/profile">
                                     <i class="fa fa-user"></i> [[#{navbar.myAccount}]]
                                 </a>
                             </li>
 
                             <li>
-                                <a sec:authorize="isAuthenticated()" href="/orders" >
+                                <a sec:authorize="isAuthenticated()" href="/orders">
                                     <i class="fa fa-truck"></i> [[#{navbar.myOrders}]]
                                 </a>
                             </li>
 
-                            <li><a href="/logout" sec:authorize="isAuthenticated()"><i class="fa fa-sign-out" ></i> [[#{navbar.logout}]]</a></li>
+                            <li><a href="/logout" sec:authorize="isAuthenticated()"><i class="fa fa-sign-out"></i>
+                                [[#{navbar.logout}]]</a></li>
 
                             <li>
-                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="#smyModal" >
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="#smyModal">
                                     <i class="fa fa-lock"></i> Login
                                 </a>
                             </li>
                             <li>
-                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="/registration" >
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="/registration">
                                     <i class="fa fa-user"></i> Register
                                 </a>
                             </li>
@@ -137,7 +138,8 @@
             <div class="row">
                 <div class="col-sm-9">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -150,19 +152,20 @@
                             <li class="dropdown"><a href="#">[[#{navbar.category}]]<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li th:each="category : ${listCategories}">
-                                        <a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category Name</a>
+                                        <a th:href="@{/category/{alias}(alias=${category.alias})}"
+                                           th:text="${category.title}">Category Name</a>
                                     </li>
                                 </ul>
                             </li>
 
 
                             <li><a href="/products">[[#{navbar.products}]]</a></li>
-                            <li ><a href="/contact">[[#{navbar.contact}]]</a></li>
+                            <li><a href="/contact">[[#{navbar.contact}]]</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <form th:action="@{/search}" method="get" >
+                    <form th:action="@{/search}" method="get">
                         <div class="search_box pull-right">
                             <input type="text" name="keyword" placeholder="Search" required/>
                         </div>
@@ -207,7 +210,7 @@
             <div class="row">
                 <div class="col-md-4 clearfix">
                     <div class="logo pull-left">
-                        <a href="/"><img th:src="@{/assets/logo.png}" alt="" /></a>
+                        <a href="/"><img th:src="@{/assets/logo.png}" alt=""/></a>
                     </div>
                 </div>
                 <div class="col-md-8 clearfix">
@@ -215,24 +218,25 @@
                         <ul class="nav navbar-nav">
 
                             <li>
-                                <a sec:authorize="isAuthenticated()" href="/basket" >
+                                <a sec:authorize="isAuthenticated()" href="/basket">
                                     <i class="fa fa-shopping-cart"></i> [[#{navbar.cart}]]</a>
                                 </a>
                             </li>
 
                             <li>
-                                <a sec:authorize="isAuthenticated()" href="/profile" >
+                                <a sec:authorize="isAuthenticated()" href="/profile">
                                     <i class="fa fa-user"></i> [[#{navbar.myAccount}]]
                                 </a>
                             </li>
 
                             <li>
-                                <a sec:authorize="isAuthenticated()" href="/orders" >
+                                <a sec:authorize="isAuthenticated()" href="/orders">
                                     <i class="fa fa-truck"></i> [[#{navbar.myOrders}]]
                                 </a>
                             </li>
 
-                            <li><a href="/logout" sec:authorize="isAuthenticated()"><i class="fa fa-sign-out" ></i> [[#{navbar.logout}]]</a></li>
+                            <li><a href="/logout" sec:authorize="isAuthenticated()"><i class="fa fa-sign-out"></i>
+                                [[#{navbar.logout}]]</a></li>
 
                             <li>
                                 <a sec:authorize="isAnonymous()" data-toggle="modal" href="#smyModal">
@@ -240,7 +244,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="/registration" >
+                                <a sec:authorize="isAnonymous()" data-toggle="modal" href="/registration">
                                     <i class="fa fa-user"></i> Register
                                 </a>
                             </li>
@@ -280,20 +284,20 @@
 
                 <div class="col-sm-3">
                     <div class="address">
-                        <img th:src="@{/assets/map.png}" alt="" />
+                        <img th:src="@{/assets/map.png}" alt=""/>
                         <p>Wish Mart,<br>[[#{footer.city}]].</p>
                     </div>
                 </div>
 
-                  <div class="col-sm-6">
+                <div class="col-sm-6">
                     <div class="video-gallery text-center">
-                      <a href="#">
-                          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d63372.42102183473!2d79.8851072!3d6.9173248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1716808971078!5m2!1sen!2slk"
-                                  allowfullscreen="" loading="lazy"
-                                  referrerpolicy="no-referrer-when-downgrade"></iframe>
-                      </a>
+                        <a href="#">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d63372.42102183473!2d79.8851072!3d6.9173248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1716808971078!5m2!1sen!2slk"
+                                    allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </a>
                     </div>
-                  </div>
+                </div>
 
             </div>
         </div>
@@ -319,7 +323,8 @@
                         <h2>Quick Shop</h2>
                         <ul class="nav nav-pills nav-stacked">
                             <li class="nav nav-pills nav-stacked" th:each="category : ${listCategories}">
-                                <a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category Name</a>
+                                <a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category
+                                    Name</a>
                             </li>
                         </ul>
                     </div>

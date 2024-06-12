@@ -729,6 +729,12 @@ h2.title:before {
     text-transform: uppercase;
 }
 
+.categ.panel.panel-default:hover {
+    background-color: #f0f0f0;
+    border-color: #007bff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+}
+
 .panel-group .panel-heading+.panel-collapse .panel-body {
     border-top: 0 none;
 }

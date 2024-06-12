@@ -36,8 +36,8 @@
                             <tbody>
                             <tr th:each="category : ${categories}">
                                 <td th:text="${category.id}"></td>
-                                <td><img style="width:100px;height:50px;padding:0;"
-                                         th:src="'/category-images/'+${category.imageURL}">
+                                <td><img style="width:100px;height:100px;padding:0;"
+                                         th:src="@{'data:image/jpeg;base64,'+${category.imageFile}}">
                                 </td>
                                 <td th:text="${category.title}"></td>
                                 <td th:text="${category.alias}"></td>

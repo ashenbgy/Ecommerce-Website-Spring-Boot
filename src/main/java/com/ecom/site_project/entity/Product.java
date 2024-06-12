@@ -35,6 +35,11 @@ public class Product {
 
     @Column(name = "image")
     private String imageURL;
+
+    @Lob
+    @Column(name = "image_file", columnDefinition = "MEDIUMBLOB")
+    private String imageFile;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "vendor_id")

@@ -6,7 +6,7 @@
         <div class="product-image-wrapper">
             <div class="single-products">
                 <div class="productinfo text-center">
-                    <img th:src="'/product-images/'+${product.imageURL}" />
+                    <img th:src="@{'data:image/jpeg;base64,'+${product.imageFile}}" />
                     <h2>RS. [[${product.price}]]</h2>
                     <p>[[${product.shortTitle}]]</p>
                     <a type="submit" th:href="@{'/product/'+${product.alias}}" class="btn btn-default add-to-cart">View Product</a>
