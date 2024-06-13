@@ -3,6 +3,7 @@ package com.ecom.site_project.controller;
 import com.ecom.site_project.entity.User;
 import com.ecom.site_project.entity.UserInfo;
 import com.ecom.site_project.repository.CategoryRepository;
+import com.ecom.site_project.service.CategoryService;
 import com.ecom.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,8 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
+    CategoryService categoryService;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CategoryRepository categoryRep;
@@ -34,7 +37,7 @@ public class UserController {
             UserInfo userInfo = user.getUserInfo();
             model.addAttribute("userDetails", userInfo);
             model.addAttribute("user", user);
-            model.addAttribute("listCategories", categoryRep.findAllEnabled());
+            model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
             return "/user/user-main";
         } else {
             model.addAttribute("error", new NotFoundException("User was not found"));

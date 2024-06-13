@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() throws ProductNotFoundException {
         List<Product> listProducts = productRepository.findAll();
         if (listProducts.isEmpty()) {
-            throw new ProductNotFoundException("Couldn't find any product in DB");
+            throw new ProductNotFoundException("Couldn't find any product!");
         }
         return listProducts;
     }
@@ -73,10 +73,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getRandomAmountOfProducts() throws ProductNotFoundException {
         int randomSeriesLength = 3;
+        List<Product> productList = new ArrayList<>();
 
         List<Integer> catIdList = categoryRepository.findAllEnabledCategoryId();
 
-        List<Product> productList = null;
         Collections.shuffle(catIdList);
         for (Integer categoryId : catIdList) {
             productList = productRepository.findAllByCategoryId(categoryId);
@@ -85,11 +85,15 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        Collections.shuffle(productList);
-
-        if (randomSeriesLength > productList.size()) {
-            randomSeriesLength = productList.size();
+        if (!productList.isEmpty()) {
+            Collections.shuffle(productList);
+            if (randomSeriesLength > productList.size()) {
+                randomSeriesLength = productList.size();
+            }
+        } else {
+            throw new ProductNotFoundException("No products found!");
         }
+
         return productList.subList(0, randomSeriesLength);
     }
 
@@ -109,6 +113,12 @@ public class ProductServiceImpl implements ProductService {
                 Product existingProduct = getProduct(product.getId());
                 product.setImageFile(existingProduct.getImageFile());
             }
+        } else {
+            // New product
+            if (file.getSize() > 0) {
+                // Image uploaded
+                product.setImageFile(Base64.getEncoder().encodeToString(file.getBytes()));
+            }
         }
         productRepository.save(product);
     }
@@ -118,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             return productRepository.getReferenceById(id);
         } catch (NoSuchElementException e) {
-            throw new ProductNotFoundException("Couldn't find any product with id " + id);
+            throw new ProductNotFoundException("Couldn't find any product with ID " + id);
         }
     }
 

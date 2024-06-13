@@ -57,7 +57,7 @@ public class ProductController {
             model.addAttribute("listProducts", listProducts);
 
             model.addAttribute("category", category);
-            model.addAttribute("listCategories", categoryRep.findAllEnabled());
+            model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
             return "product/products_by_category";
         } catch (CategoryNotFoundException e) {
             model.addAttribute("error", e.getLocalizedMessage());
@@ -72,7 +72,7 @@ public class ProductController {
             List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("product", product);
-            model.addAttribute("listCategories", categoryRep.findAllEnabled());
+            model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
             return "product/product-page";
         } catch (ProductNotFoundException e) {
             model.addAttribute("error", e.getLocalizedMessage());
@@ -107,7 +107,7 @@ public class ProductController {
         model.addAttribute("pageTitle", StringUtils.capitalize(keyword) + " - Search Result");
         model.addAttribute("keyword", keyword);
         model.addAttribute("resultList", resultList);
-        model.addAttribute("listCategories", categoryRep.findAllEnabled());
+        model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         return "product/search_result";
     }
 

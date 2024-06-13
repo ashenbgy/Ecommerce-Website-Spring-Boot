@@ -3,6 +3,7 @@ package com.ecom.site_project.controller;
 import com.ecom.site_project.entity.*;
 import com.ecom.site_project.exception.ProductNotFoundException;
 import com.ecom.site_project.repository.CategoryRepository;
+import com.ecom.site_project.service.CategoryService;
 import com.ecom.site_project.service.ProductService;
 import com.ecom.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,14 @@ import org.webjars.NotFoundException;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CategoryService categoryService;
     @Autowired
     private CategoryRepository categoryRep;
     @Autowired
@@ -26,11 +30,11 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("listCategories", categoryRep.findAllEnabled());
+        model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         try {
             model.addAttribute("listProducts", productService.getRandomAmountOfProducts());
         } catch (ProductNotFoundException ex) {
-            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            model.addAttribute("error", ex.getMessage());
             return "/error/404";
         }
         return "index";
@@ -40,7 +44,7 @@ public class MainController {
     public String registration(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("userInfo", new UserInfo());
-        model.addAttribute("listCategories", categoryRep.findAllEnabled());
+        model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         return "registration";
     }
 
@@ -60,7 +64,7 @@ public class MainController {
             List<OrderBasket> orderBaskets = userService.getUserByLogin(principal.getName()).getOrderBaskets();
             model.addAttribute("orderBaskets", orderBaskets);
             model.addAttribute("order", new Order());
-            model.addAttribute("listCategories", categoryRep.findAllEnabled());
+            model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         } else {
             model.addAttribute("error", new NotFoundException("Order basket was not found"));
             return "/error/404";
@@ -71,23 +75,23 @@ public class MainController {
     @GetMapping("/category")
     public String showCategories(Model model) {
         List<Category> listEnabledCategories = categoryRep.findAllEnabled();
-        model.addAttribute("listCategories", listEnabledCategories);
+        model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         return "category";
     }
 
     @GetMapping("/contact")
     public String showContact(Model model) {
-        model.addAttribute("listCategories", categoryRep.findAllEnabled());
+        model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         return "contact";
     }
 
     @GetMapping("/products")
-    public String showProduct(Model model) throws ProductNotFoundException {
-        model.addAttribute("listCategories", categoryRep.findAllEnabled());
+    public String showProduct(Model model) {
+        model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         try {
             model.addAttribute("listProducts", productService.getAllProducts());
         } catch (ProductNotFoundException ex) {
-            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            model.addAttribute("error", ex.getMessage());
             return "/error/404";
         }
         return "products";

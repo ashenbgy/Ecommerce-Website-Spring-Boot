@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryService {
     List<Category> listByPage(CategoryPageInfoServiceImpl pageInfo, int pageNum);
@@ -25,4 +26,6 @@ public interface CategoryService {
     List<Category> getCategoryParents(Category child);
 
     String checkCategoryTitle(Integer id, String title, String alias);
+
+    Map<Category, List<Category>> getAllCategoryAndSubCategory();
 }

@@ -1,7 +1,6 @@
 package com.ecom.site_project.service.impl;
 
 import com.ecom.site_project.entity.Category;
-import com.ecom.site_project.entity.Product;
 import com.ecom.site_project.exception.CategoryNotFoundException;
 import com.ecom.site_project.repository.CategoryRepository;
 import com.ecom.site_project.service.CategoryService;
@@ -117,18 +116,28 @@ public class CategoryServiceImpl implements CategoryService {
             allParentIds += String.valueOf(parent.getId()) + "-";
             category.setAllParentsIDs(allParentIds);
         }
+
         if (category.getAlias() == null || category.getAlias().isEmpty()) {
             String defaultAlias = category.getTitle().toLowerCase();
             category.setAlias(convertCyrillic(defaultAlias).replaceAll(" ", "_"));
         } else {
             category.setAlias(category.getAlias().replaceAll(" ", "_").toLowerCase());
         }
-        if (file.getSize() > 0) {
-            category.setImageFile(Base64.getEncoder().encodeToString(file.getBytes()));
+
+        if (category.getId() != null) {
+            if (file.getSize() > 0) {
+                category.setImageFile(Base64.getEncoder().encodeToString(file.getBytes()));
+            } else {
+                // If no new file is uploaded, retain the existing image
+                Category existingCategory = getCategory(category.getId());
+                category.setImageFile(existingCategory.getImageFile());
+            }
         } else {
-            // If no new file is uploaded, retain the existing image
-            Category existingCategory = getCategory(category.getId());
-            category.setImageFile(existingCategory.getImageFile());
+            // New product
+            if (file.getSize() > 0) {
+                // Image uploaded
+                category.setImageFile(Base64.getEncoder().encodeToString(file.getBytes()));
+            }
         }
         return categoryRep.save(category);
     }
@@ -226,6 +235,29 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         return "OK";
+    }
+
+    public Map<Category, List<Category>> getAllCategoryAndSubCategory() {
+
+        List<Category> categoryList = categoryRep.findAllEnabled();
+
+        // Map to hold parent categories and their subcategories
+        Map<Category, List<Category>> categoryMap = new HashMap<>();
+
+        // Loop through all categories
+        for (Category cat : categoryList) {
+            if (cat.getParent() == null) {
+                // If the category has no parent, it's a root category
+                categoryMap.putIfAbsent(cat, new ArrayList<>());
+            } else {
+                // If the category has a parent, it's a subcategory
+                Category parent = cat.getParent();
+                categoryMap.putIfAbsent(parent, new ArrayList<>());
+                categoryMap.get(parent).add(cat);
+            }
+        }
+
+        return categoryMap;
     }
 
 }

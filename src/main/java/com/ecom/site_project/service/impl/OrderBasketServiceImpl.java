@@ -26,7 +26,7 @@ public class OrderBasketServiceImpl implements OrderBasketService {
     public List<OrderBasket> getAllOrderBaskets() {
         List<OrderBasket> orderBasket = orderBasketRep.findAll();
         if (orderBasket.isEmpty()) {
-            throw new NotFoundException("Couldn't find any product in DB");
+            throw new NotFoundException("Couldn't find any orders");
         }
         return orderBasket;
     }

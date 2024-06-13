@@ -287,7 +287,7 @@ public class AdminController {
         try {
             model.addAttribute("orderBaskets", orderBasketService.getAllOrderBaskets());
         } catch (NotFoundException ex) {
-            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            model.addAttribute("error", ex.getMessage());
             return "/error/404";
         }
         return "admin/order_basket/order_baskets";

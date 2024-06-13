@@ -2,9 +2,26 @@
     <h2>Category</h2>
     <div class="panel-group category-products" id="accordian"><!--category-productsr-->
 
-        <div class="categ panel panel-default" th:each="category : ${listCategories}">
-            <div class="panel-heading">
-                <h4 class="panel-title"><a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category Name</a></h4>
+<!--        <div class="categ panel panel-default" th:each="category : ${listCategories}">-->
+<!--            <div class="panel-heading">-->
+<!--                <h4 class="panel-title"><a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category Name</a></h4>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="category-group" id="accordion">
+            <div class="category-item panel panel-default" th:each="entry : ${categoryMap}">
+                <div class="category-heading">
+                    <h4 class="category-title">
+                        <a class="category-link" th:href="@{/category/{alias}(alias=${entry.key.alias})}" th:text="${entry.key.title}">Category Name</a>
+                    </h4>
+                </div>
+                <div class="category-body" th:if="${entry.value.size() > 0}">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item" th:each="subCat : ${entry.value}">
+                            <a class="subcategory-link" th:href="@{/category/{alias}(alias=${subCat.alias})}" th:text="${subCat.title}">Subcategory Name</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 

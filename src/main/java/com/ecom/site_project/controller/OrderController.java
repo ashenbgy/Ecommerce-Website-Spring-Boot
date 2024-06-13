@@ -4,7 +4,7 @@ import com.ecom.site_project.entity.Order;
 import com.ecom.site_project.entity.OrderBasket;
 import com.ecom.site_project.entity.OrderType;
 import com.ecom.site_project.entity.User;
-import com.ecom.site_project.repository.CategoryRepository;
+import com.ecom.site_project.service.CategoryService;
 import com.ecom.site_project.service.OrdersService;
 import com.ecom.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +30,12 @@ public class OrderController {
 
     @Autowired
     JavaMailSender javaMailSender;
-
     @Autowired
     private OrdersService ordersService;
     @Autowired
     private UserService userService;
     @Autowired
-    private CategoryRepository categoryRep;
+    private CategoryService categoryService;
 
     @GetMapping("/orders")
     public String showOrders(Model model, Principal principal) {
@@ -44,7 +43,7 @@ public class OrderController {
             User user = userService.getUserByLogin(principal.getName());
             List<Order> orders = ordersService.getAllOrdersByUser(user);
             model.addAttribute("orders", orders);
-            model.addAttribute("listCategories", categoryRep.findAllEnabled());
+            model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
         } else {
             model.addAttribute("error", new NotFoundException("Orders was not found"));
             return "/error/404";
@@ -81,7 +80,7 @@ public class OrderController {
             attributes.addFlashAttribute("message", "Order was completed! Check your email!");
             sendVerificationEmail(newOrder);
         } catch (JpaSystemException | MessagingException | UnsupportedEncodingException ex) {
-            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            model.addAttribute("error", ex.getMessage());
             return "error/404";
         }
         return "redirect:/orders";

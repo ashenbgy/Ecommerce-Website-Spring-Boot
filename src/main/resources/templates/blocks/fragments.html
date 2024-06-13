@@ -149,15 +149,19 @@
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/" class="active">[[#{navbar.home}]]</a></li>
-                            <li class="dropdown"><a href="#">[[#{navbar.category}]]<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li th:each="category : ${listCategories}">
-                                        <a th:href="@{/category/{alias}(alias=${category.alias})}"
-                                           th:text="${category.title}">Category Name</a>
-                                    </li>
-                                </ul>
-                            </li>
 
+                                <li class="dropdown"><a href="#">[[#{navbar.category}]]<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li th:each="entry : ${categoryMap}">
+                                            <a th:href="@{/category/{alias}(alias=${entry.key.alias})}" th:text="${entry.key.title}">Category Name</a>
+                                            <ul class="sub-menu" th:if="${entry.value.size() > 0}">
+                                                <li th:each="subCat : ${entry.value}">
+                                                    <a th:href="@{/category/{alias}(alias=${subCat.alias})}" th:text="${subCat.title}">Subcategory Name</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
 
                             <li><a href="/products">[[#{navbar.products}]]</a></li>
                             <li><a href="/contact">[[#{navbar.contact}]]</a></li>
@@ -321,12 +325,25 @@
                 <div class="col-sm-3">
                     <div class="single-widget">
                         <h2>Quick Shop</h2>
+
                         <ul class="nav nav-pills nav-stacked">
                             <li class="nav nav-pills nav-stacked" th:each="category : ${listCategories}">
                                 <a th:href="@{/category/{alias}(alias=${category.alias})}" th:text="${category.title}">Category
                                     Name</a>
                             </li>
                         </ul>
+
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="nav nav-pills nav-stacked" th:each="entry : ${categoryMap}">
+                                <a th:href="@{/category/{alias}(alias=${entry.key.alias})}" th:text="${entry.key.title}">Category Name</a>
+                                <ul class="subcategory-list nav nav-pills nav-stacked" th:if="${entry.value.size() > 0}">
+                                    <li class="subcategory-item" th:each="subCat : ${entry.value}">
+                                        <a th:href="@{/category/{alias}(alias=${subCat.alias})}" th:text="${subCat.title}">Subcategory Name</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
                 <div class="col-sm-3">
