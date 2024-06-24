@@ -37,6 +37,40 @@
         var csrfHeaderName = "[[${_csrf.headerName}]]";
         var csrfValue = "[[${_csrf.token}]]";
     </script>
+
+    <script type="text/javascript">
+        function checkInventory(element) {
+
+            var productId = $(element).attr('data-pid');
+            var quantity = $('#quantity' + productId).val();
+            var quantityElement = $('#quantity' + productId);
+
+            $.ajax({
+                url: "/products/check-inventory",
+                type: 'GET',
+                data: {
+                    productId: productId,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    if (!response) {
+                        $("#modalTitle").text("Shopping Cart");
+                        $("#modalBody").text("You have exceeded the Stock amount!");
+                        $("#myModal").modal();
+
+                        var newQuantity = quantity - 1;
+                        quantityElement.val(newQuantity);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error checking inventory:', error);
+                    $("#modalTitle").text("Shopping Cart");
+                    $("#modalBody").text("An error occurred while checking inventory. Please try again later.");
+                    $("#myModal").modal();
+                }
+            });
+        }
+    </script>
 </div>
 
 <!--new header inserted-->
@@ -475,7 +509,7 @@ but can be also used in another admin pages if you modify code to sort and searc
                        onkeydown="return false;" th:id="'quantity'+${productId}"/>
             </li>
             <li>
-                <a class="btn btn-default plusButton" href="" th:pid="${productId}"><b>+</b></a>
+                <a class="btn btn-default plusButton"  href="" th:pid="${productId}" th:data-pid="${productId}"><b>+</b></a>
             </li>
         </ul>
     </nav>

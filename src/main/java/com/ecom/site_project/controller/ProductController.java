@@ -4,20 +4,17 @@ import com.ecom.site_project.entity.Product;
 import com.ecom.site_project.exception.CategoryNotFoundException;
 import com.ecom.site_project.exception.ProductNotFoundException;
 import com.ecom.site_project.entity.Category;
-import com.ecom.site_project.repository.CategoryRepository;
 import com.ecom.site_project.service.CategoryService;
 import com.ecom.site_project.service.ProductService;
 import com.ecom.site_project.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,8 +26,6 @@ public class ProductController {
     private CategoryService categoryService;
     @Autowired
     private AdminToolController adminTools;
-    @Autowired
-    private CategoryRepository categoryRep;
 
     @GetMapping({"/category/{category_alias}"})
     public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
@@ -58,7 +53,7 @@ public class ProductController {
 
             model.addAttribute("category", category);
             model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
-            return "product/products_by_category";
+            return "product/products-by-category";
         } catch (CategoryNotFoundException e) {
             model.addAttribute("error", e.getLocalizedMessage());
             return "error/404";
@@ -108,7 +103,13 @@ public class ProductController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("resultList", resultList);
         model.addAttribute("categoryMap", categoryService.getAllCategoryAndSubCategory());
-        return "product/search_result";
+        return "product/search-result";
+    }
+
+    @GetMapping("/products/check-inventory")
+    public ResponseEntity<?> checkInventory(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity) {
+        int availableInventory = productService.getAvailableInventory(productId);
+        return ResponseEntity.ok(quantity <= availableInventory);
     }
 
 }

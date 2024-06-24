@@ -30,13 +30,10 @@ public class AdminController {
     private CategoryService categoryService;
     @Autowired
     private VendorService vendorService;
-
     @Autowired
     private OrdersService ordersService;
-
     @Autowired
     private OrderBasketService orderBasketService;
-
     @Autowired
     private AdminToolController adminTools;
 
@@ -111,7 +108,7 @@ public class AdminController {
         model.addAttribute("user", new User());
         model.addAttribute("userInfo", new UserInfo());
         model.addAttribute("roles", Role.values());
-        return "admin/user/user_form";
+        return "admin/user/user-form";
     }
 
     @PostMapping("/users/save")
@@ -136,7 +133,7 @@ public class AdminController {
             redirect.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/users";
         }
-        return "admin/user/user_form";
+        return "admin/user/user-form";
     }
 
     @GetMapping("/users/delete/{id}")
@@ -163,7 +160,7 @@ public class AdminController {
             List<Category> categoryList = categoryService.listCategoriesUserInForm();
             model.addAttribute("category", category);
             model.addAttribute("categoryList", categoryList);
-            return "admin/category/category_form";
+            return "admin/category/category-form";
         } catch (CategoryNotFoundException e) {
             attributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/categories";
@@ -176,7 +173,7 @@ public class AdminController {
         model.addAttribute("category", new Category());
         model.addAttribute("categoryList", categoryList);
 
-        return "admin/category/category_form";
+        return "admin/category/category-form";
     }
 
     @PostMapping("/categories/save")
@@ -210,7 +207,7 @@ public class AdminController {
     @GetMapping("/vendors/new")
     public String newVendor(Model model) {
         model.addAttribute("vendor", new Vendor());
-        return "admin/vendor/vendor_form";
+        return "admin/vendor/vendor-form";
     }
 
     @PostMapping("/vendors/save")
@@ -229,7 +226,7 @@ public class AdminController {
             redirect.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/vendors";
         }
-        return "admin/vendor/vendor_form";
+        return "admin/vendor/vendor-form";
     }
 
     @GetMapping("/vendors/delete/{id}")
@@ -267,7 +264,7 @@ public class AdminController {
             redirect.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/orders";
         }
-        return "admin/orders/order_form";
+        return "admin/orders/order-form";
     }
 
     @GetMapping("/orders/delete/{id}")

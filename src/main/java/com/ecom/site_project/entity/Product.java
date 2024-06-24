@@ -33,6 +33,9 @@ public class Product {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "items")
+    private int items;
+
     @Column(name = "image")
     private String imageURL;
 

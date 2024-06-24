@@ -30,4 +30,6 @@ public interface ProductService {
     String checkUnique(Integer id, String title);
 
     Page<Product> search(String keyword, int pageNum);
+
+    int getAvailableInventory(int productId);
 }

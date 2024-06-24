@@ -6,6 +6,7 @@ import com.ecom.site_project.entity.OrderType;
 import com.ecom.site_project.entity.User;
 import com.ecom.site_project.service.CategoryService;
 import com.ecom.site_project.service.OrdersService;
+import com.ecom.site_project.service.ProductService;
 import com.ecom.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -29,7 +30,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
     @Autowired
     private OrdersService ordersService;
     @Autowired
@@ -78,8 +79,9 @@ public class OrderController {
         try {
             ordersService.saveOrder(newOrder);
             attributes.addFlashAttribute("message", "Order was completed! Check your email!");
-            sendVerificationEmail(newOrder);
-        } catch (JpaSystemException | MessagingException | UnsupportedEncodingException ex) {
+            //send mail
+            //sendVerificationEmail(newOrder);
+        } catch (JpaSystemException ex) {
             model.addAttribute("error", ex.getMessage());
             return "error/404";
         }
@@ -92,7 +94,7 @@ public class OrderController {
     private void sendVerificationEmail(Order order)
             throws MessagingException, UnsupportedEncodingException {
 
-        String shipping = order.getShippingType() == 0 ? "Ukr poshta" : "Nova poshta";
+        String shipping = order.getShippingType() == 0 ? "Sri Lanka Post" : "International Post";
 
         String subject = "Thank you for ordering in Wish Mart";
         String senderName = "Wish Mart";

@@ -6,7 +6,6 @@ import com.ecom.site_project.repository.CategoryRepository;
 import com.ecom.site_project.repository.ProductRepository;
 import com.ecom.site_project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -169,5 +168,10 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNum - 1, SEARCH_RESULTS_PAGE);
         return productRepository.search(keyword, pageable);
 
+    }
+
+    @Override
+    public int getAvailableInventory(int productId) {
+        return productRepository.findAvailableItemsByProductId(productId);
     }
 }

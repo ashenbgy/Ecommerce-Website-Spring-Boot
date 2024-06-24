@@ -96,6 +96,7 @@
                                       th:class="${sortDir == 'asc' ? 'fa fa-sort-up' : 'fa fa-sort-down'}"></span>
                             </th>
                             <th>[[#{admin.product.price}]]</th>
+                            <th>[[#{admin.product.items}]]</th>
                             <th>
                                 <a th:if="${sortField != 'vendor'}" class="text-white"
                                    th:href="@{'/admin/products/page/' + ${currentPage} + '?sortField=vendor&sortDir=' + ${sortDir}}">
@@ -135,6 +136,7 @@
                                 </td>
                                 <td th:text="${product.shortDescription}"></td>
                                 <td th:text="${product.price}"></td>
+                                <td th:text="${product.items}"></td>
                                 <td th:text="${product?.vendor?.title}"></td>
                                 <td th:text="${product?.category?.title}"></td>
                                 <td><a class="fa fa-edit green-text"

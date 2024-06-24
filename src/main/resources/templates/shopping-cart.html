@@ -63,14 +63,15 @@
                                                          th:replace="/blocks/fragments :: quantity_control(${basketItem.quantity}, ${product.id})">
                                                     </div>
                                                     <div class="subtotal" style="font-weight: 400">
-                                                        <span>x Rs. [[${product.price}]]</span>
+                                                        <span>x Rs. </span><span>[[${product.price}]]</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 price">
                                                     <span class="productSubtotalTitle">[[#{shoppingCart.subtotal}]]</span>
+                                                    <span>Rs. </span>
                                                     <span class="productSubtotal"
                                                           style="width:800px; margin:0 auto; font-weight: 500;"
-                                                          th:id="'subtotal' + ${product.id}">Rs. [[${basketItem.subtotal}]]</span>
+                                                          th:id="'subtotal' + ${product.id}">[[${basketItem.subtotal}]]</span>
                                                 </div>
                                             </div>
                                         </div>

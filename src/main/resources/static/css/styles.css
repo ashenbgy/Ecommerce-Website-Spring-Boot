@@ -876,7 +876,7 @@ and */
 }
 
 .shopping-cart .items .product .info .quantity .quantity-input {
-    margin: auto;
+    margin: 0 6px 0 0;
     width: 80px;
 }
 

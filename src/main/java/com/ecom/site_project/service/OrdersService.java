@@ -23,6 +23,5 @@ public interface OrdersService {
 
     void deleteOrder(int id) throws OrderNotFoundException;
 
-
     Page<Order> listByPage(int pageNum);
 }

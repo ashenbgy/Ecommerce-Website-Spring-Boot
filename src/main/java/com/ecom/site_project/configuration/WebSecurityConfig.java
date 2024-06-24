@@ -38,11 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .successHandler(customAuthenticationSuccessHandler)  // Use custom success handler
-                .permitAll()
+                .successHandler(customAuthenticationSuccessHandler).permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().and().exceptionHandling()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().and()
+                .exceptionHandling()
                 .accessDeniedPage("/error403");
     }
 

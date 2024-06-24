@@ -7,6 +7,7 @@ $(document).ready(function () {
     $(".plusButton").on("click", function (evt) {
         evt.preventDefault();
         increaseQuantity($(this));
+        checkInventory($(this));
     });
     $(".link-remove").on("click", function (evt) {
         evt.preventDefault();
@@ -53,10 +54,10 @@ function increaseQuantity(link) {
     qtyInput = $("#quantity" + productId);
 
     newQty = parseInt(qtyInput.val()) + 1;
-    if (newQty <= 10) {
+    // if (newQty <= 10) {
         qtyInput.val(newQty);
         updateQuantity(productId, newQty);
-    }
+    // }
 }
 
 function decreaseQuantity(link) {
@@ -83,7 +84,7 @@ function updateQuantity(productId, quantity) {
         updateSubtotal(newSubtotal, productId);
         updateTotal();
     }).fail(function () {
-        $("#modalTitle").text("Shopping basket");
+        $("#modalTitle").text("Shopping Cart");
         $("#modalBody").text("Error while updating product to shopping cart.");
         $("#myModal").modal();
     });
@@ -98,5 +99,5 @@ function updateTotal() {
     $(".productSubtotal").each(function (index, element) {
         total = total + parseFloat(element.innerHTML);
     });
-    $("#totalAmount").text("Rs. " + total);
+    $("#totalAmount").text("Rs. " + total.toFixed(2));
 }

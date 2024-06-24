@@ -13,6 +13,9 @@ $(document).ready(function () {
         qtyInput = $("#quantity" + productId);
 
         newQty = parseInt(qtyInput.val()) + 1;
-        if (newQty <= 10) qtyInput.val(newQty);
+        // if (newQty <= 10) {
+            qtyInput.val(newQty);
+            checkInventory($(this));
+        // }
     });
 });
