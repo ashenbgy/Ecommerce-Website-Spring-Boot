@@ -1,8 +1,4 @@
 This E-commerce project built on Spring Boot.<br>
-Look demo below.
-
-Login: admin <br>
-Password: admin
 
 ## Used Technologies:
 
