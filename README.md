@@ -1,4 +1,6 @@
-This E-commerce project built on Spring Boot.<br>
+# E-commerce project<br>
+
+This project is an e-commerce platform developed using the Spring Boot framework.
 
 ## Used Technologies:
 
